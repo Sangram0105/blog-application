@@ -61,7 +61,7 @@ pipeline {
         stage('Docker Push Image') {
             steps {
                 script{
-                withDockerRegistry(credentialsId: 'dockerhub-cred', url: 'https://index.docker.io/v1/') {
+                withDockerRegistry(credentialsId: 'dockerhub-cred') {
                     sh "docker push sdsankpal7812/gab-blogging-app"
                 }
                 }
