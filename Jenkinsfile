@@ -5,9 +5,9 @@ pipeline {
         maven "maven"
         dockerTool "docker"
     }
-    environment {
-        SCANNER_HOME = tool 'sonar-scanner'
-    }
+    // environment {
+    //     SCANNER_HOME = tool 'sonar-scanner'
+    // }
     
     stages {
         stage('Git Checkout') {
@@ -25,14 +25,14 @@ pipeline {
         //         sh "trivy fs . --format table -o fs.html"
         //     }
         // }
-        stage('SonarQube Analysis') {
-            steps {
-                withSonarQubeEnv('sonar-scanner') {
-                    sh '''$SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=Blogging-app -Dsonar.projectKey=Blogging-app \
-                          -Dsonar.java.binaries=target'''
-                }
-            }
-        }
+        // stage('SonarQube Analysis') {
+        //     steps {
+        //         withSonarQubeEnv('sonar-scanner') {
+        //             sh '''$SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=Blogging-app -Dsonar.projectKey=Blogging-app \
+        //                   -Dsonar.java.binaries=target'''
+        //         }
+        //     }
+        // }
         stage('Build') {
             steps {
                 sh "mvn package"
@@ -48,7 +48,7 @@ pipeline {
         stage('Docker Build & Tag') {
             steps {
                 script{
-                withDockerRegistry(credentialsId: 'dockerhub-cred') {
+                withDockerRegistry(credentialsId: 'docker-cred') {
                 sh "docker build -t sdsankpal7812/gab-blogging-app ."
                 }
                 }
@@ -62,7 +62,7 @@ pipeline {
         stage('Docker Push Image') {
             steps {
                 script{
-                withDockerRegistry(credentialsId: 'dockerhub-cred') {
+                withDockerRegistry(credentialsId: 'docker-cred') {
                     sh "docker push sdsankpal7812/gab-blogging-app"
                 }
                 }
