@@ -47,7 +47,7 @@ pipeline {
         stage('Docker Build & Tag') {
             steps {
                 script{
-                withDockerRegistry(credentialsId: 'dockerhub-cred', url: 'https://index.docker.io/v1/') {
+                withDockerRegistry(credentialsId: 'dockerhub-cred') {
                 sh "docker build -t sdsankpal7812/gab-blogging-app ."
                 }
                 }
